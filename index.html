@@ -403,8 +403,8 @@
     <div class="contact-grid">
       <div class="contact-panel">
         <h3>📩 Send us your details</h3>
-        <!-- TODO: replace YOUR_FORM_ID with your actual Formspree form ID (formspree.io) -->
-        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <!-- Submissions are saved to a Google Sheet via Apps Script — see GOOGLE_SCRIPT_URL near the bottom of this file for setup -->
+        <form id="leadForm">
           <div class="form-row">
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" required placeholder="Your name">
@@ -430,9 +430,8 @@
             <label for="message">Message (optional)</label>
             <textarea id="message" name="message" placeholder="Any questions about the ECE course?"></textarea>
           </div>
-          <input type="hidden" name="_subject" value="New ECE Course Enquiry (Landing Page)">
-          <button type="submit" class="btn btn-accent" style="width:100%;">Submit Enquiry</button>
-          <p class="form-note">We usually respond within a few hours. You can also reach us directly:</p>
+          <button type="submit" class="btn btn-accent" style="width:100%;" id="leadFormBtn">Submit Enquiry</button>
+          <p class="form-note" id="leadFormStatus">We usually respond within a few hours. You can also reach us directly:</p>
           <a class="whatsapp-btn" href="https://wa.me/919822664242?text=Hi%2C%20I%27m%20interested%20in%20the%20ECE%20course" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
         </form>
       </div>
@@ -552,6 +551,40 @@
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---------- Lead form -> Google Sheet via Apps Script ----------
+  // TODO: after deploying the Apps Script web app (see setup instructions), paste its /exec URL below.
+  const GOOGLE_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+  const leadForm = document.getElementById('leadForm');
+  const leadFormBtn = document.getElementById('leadFormBtn');
+  const leadFormStatus = document.getElementById('leadFormStatus');
+
+  leadForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (GOOGLE_SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+      leadFormStatus.textContent = "Form isn't connected yet — please WhatsApp or call us directly for now.";
+      leadFormStatus.style.color = '#c0392b';
+      return;
+    }
+    leadFormBtn.disabled = true;
+    leadFormBtn.textContent = 'Sending...';
+    const formData = new FormData(leadForm);
+    fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: formData })
+      .then(() => {
+        leadForm.reset();
+        leadForm.querySelectorAll('.form-row, button').forEach(el => el.style.display = 'none');
+        leadFormStatus.textContent = "Thanks! We've received your enquiry and will reach out shortly.";
+        leadFormStatus.style.color = 'var(--primary)';
+        leadFormStatus.style.fontWeight = '700';
+      })
+      .catch(() => {
+        leadFormBtn.disabled = false;
+        leadFormBtn.textContent = 'Submit Enquiry';
+        leadFormStatus.textContent = 'Something went wrong — please try WhatsApp or call us instead.';
+        leadFormStatus.style.color = '#c0392b';
+      });
+  });
 </script>
 
 </body>

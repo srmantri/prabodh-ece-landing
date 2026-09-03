@@ -7,6 +7,8 @@ function doPost(e) {
     p.phone || '',
     p.email || '',
     p.preferred_format || '',
+    p.preferred_date || '',
+    p.preferred_time_slot || '',
     p.message || ''
   ]);
   return ContentService.createTextOutput(JSON.stringify({ result: 'success' }))

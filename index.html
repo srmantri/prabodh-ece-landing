@@ -427,6 +427,19 @@
             </select>
           </div>
           <div class="form-row">
+            <label for="prefdate">Preferred Date for a Call</label>
+            <input type="date" id="prefdate" name="preferred_date" required>
+          </div>
+          <div class="form-row">
+            <label for="prefslot">Preferred Time Slot</label>
+            <select id="prefslot" name="preferred_time_slot" required>
+              <option value="1:00 PM - 2:00 PM">1:00 PM - 2:00 PM</option>
+              <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
+              <option value="5:00 PM - 6:00 PM">5:00 PM - 6:00 PM</option>
+              <option value="6:00 PM - 7:00 PM">6:00 PM - 7:00 PM</option>
+            </select>
+          </div>
+          <div class="form-row">
             <label for="message">Message (optional)</label>
             <textarea id="message" name="message" placeholder="Any questions about the ECE course?"></textarea>
           </div>
@@ -436,10 +449,14 @@
         </form>
       </div>
       <div class="contact-panel">
-        <h3>📅 Book a Free Call</h3>
-        <p style="color:var(--text-muted);font-size:14px;margin-bottom:14px;">Prefer to talk it through? Pick a slot that suits you and our counsellor will call you.</p>
-        <!-- TODO: replace YOUR-USERNAME/intro-call with your real Calendly link (calendly.com) -->
-        <iframe class="calendly-frame" src="https://calendly.com/YOUR-USERNAME/intro-call" title="Book a call with Prabodh"></iframe>
+        <h3>📅 Prefer to Talk Directly?</h3>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:18px;">Submit the form and we'll call you at your chosen date and time slot. Or reach us directly:</p>
+        <ul style="list-style:none;font-size:15px;color:var(--text);display:flex;flex-direction:column;gap:14px;">
+          <li>📞 <a href="tel:+918048038735">080 4803 8735</a> / <a href="tel:+919822664242">+91 98226 64242</a></li>
+          <li>✉️ <a href="mailto:prabodh.inst@gmail.com">prabodh.inst@gmail.com</a></li>
+          <li>🕐 We're available <b>Mon–Sun, 1:00 PM–3:00 PM &amp; 5:00 PM–7:00 PM</b></li>
+        </ul>
+        <a class="whatsapp-btn" style="margin-top:20px;" href="https://wa.me/919822664242?text=Hi%2C%20I%27m%20interested%20in%20the%20ECE%20course" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
       </div>
     </div>
   </div>
@@ -551,6 +568,7 @@
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('prefdate').min = new Date().toISOString().split('T')[0];
 
   // ---------- Lead form -> Google Sheet via Apps Script ----------
   // TODO: after deploying the Apps Script web app (see setup instructions), paste its /exec URL below.

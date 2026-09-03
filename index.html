@@ -69,7 +69,12 @@
     background:var(--primary-light);color:var(--primary);text-decoration:none;font-size:18px;
   }
   .header-actions .btn{padding:10px 18px;font-size:13px;}
-  @media (max-width:520px){ .brand span{font-size:13px;} .header-actions .btn span.long{display:none;} }
+  @media (max-width:520px){
+    .brand span{font-size:13px;}
+    .brand small{display:none;}
+    .header-actions{gap:6px;}
+    .header-actions .btn{padding:9px 14px;font-size:12px;}
+  }
 
   /* Hero */
   .hero{
@@ -211,7 +216,7 @@
     <div class="header-actions">
       <a class="icon-link" href="tel:+919822664242" aria-label="Call us">📞</a>
       <a class="icon-link" href="https://wa.me/919822664242" aria-label="WhatsApp us" target="_blank" rel="noopener">💬</a>
-      <a class="btn btn-primary" href="#contact"><span class="long">Enquire</span> Now</a>
+      <a class="btn btn-primary" href="#contact">Enquire Now</a>
     </div>
   </div>
 </header>

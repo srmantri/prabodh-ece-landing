@@ -1,10 +1,24 @@
 var NOTIFY_EMAIL = "prabodh.inst@gmail.com";
 
+function ordinal(n) {
+  var s = ["th", "st", "nd", "rd"];
+  var v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+function formatTimestamp(date) {
+  var tz = Session.getScriptTimeZone();
+  var day = ordinal(date.getDate());
+  var monthYear = Utilities.formatDate(date, tz, "MMMM yyyy");
+  var time = Utilities.formatDate(date, tz, "h:mm a");
+  return day + " " + monthYear + ", " + time;
+}
+
 function doPost(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var p = e.parameter;
   sheet.appendRow([
-    new Date(),
+    formatTimestamp(new Date()),
     p.name || '',
     p.phone || '',
     p.email || '',
